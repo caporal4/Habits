@@ -11,16 +11,9 @@ import SwiftUI
 class PersistenceController: ObservableObject {
     let container: NSPersistentContainer
     
-    func save() {
-        if container.viewContext.hasChanges {
-            try? container.viewContext.save()
-        }
-    }
+    @Published var selectedHabit: Habit?
     
-    func delete(_ object: NSManagedObject) {
-        container.viewContext.delete(object)
-        save()
-    }
+    private var saveTask: Task<Void, Error>?
 
     init(inMemory: Bool = false) {
         container = NSPersistentContainer(name: "Habits", managedObjectModel: Self.model)
@@ -51,11 +44,31 @@ class PersistenceController: ObservableObject {
             let newHabit = Habit(context: viewContext)
             newHabit.id = UUID()
             newHabit.title = availableHabits[int]
-            newHabit.habitUnit = "Count"
+            newHabit.unit = "Count"
             newHabit.tasksNeeded = 2
         }
         
         try? viewContext.save()
+    }
+    
+    func save() {
+        saveTask?.cancel()
+        
+        try? container.viewContext.save()
+    }
+    
+    func queueSave() {
+        saveTask?.cancel()
+
+        saveTask = Task { @MainActor in
+            try await Task.sleep(for: .seconds(3))
+            save()
+        }
+    }
+    
+    func delete(_ object: NSManagedObject) {
+        container.viewContext.delete(object)
+        save()
     }
     
     private func delete(_ fetchRequest: NSFetchRequest<NSFetchRequestResult>) {
@@ -73,14 +86,6 @@ class PersistenceController: ObservableObject {
         delete(request1)
 
         save()
-    }
-    
-    func addHabit() {
-        let viewContext = container.viewContext
-        let newItem = Habit(context: viewContext)
-        newItem.title = "New Habit"
-        
-        try? viewContext.save()
     }
     
     static let model: NSManagedObjectModel = {

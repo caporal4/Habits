@@ -22,13 +22,23 @@ extension Habit {
         id ?? UUID()
     }
     
-    var habitTasksNeeded:
-    
     var streak: Int {
         return 0
     }
     
     var tasksCompleted: Int {
         return 0
+    }
+    
+    static var example: Habit {
+        let controller = PersistenceController(inMemory: true)
+        let viewContext = controller.container.viewContext
+
+        let habit = Habit(context: viewContext)
+        habit.title = "Example Habit"
+        habit.id = UUID()
+        habit.tasksNeeded = 2
+        habit.unit = "Count"
+        return habit
     }
 }

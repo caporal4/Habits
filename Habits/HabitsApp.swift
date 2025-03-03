@@ -10,16 +10,14 @@ import SwiftUI
 @main
 struct HabitsApp: App {
     @Environment(\.scenePhase) var scenePhase
-    
     @StateObject var persistenceController = PersistenceController()
 
     var body: some Scene {
         WindowGroup {
             NavigationSplitView {
-                ContentView(persistanceController: .preview)
-                    .environment(\.managedObjectContext, persistenceController.container.viewContext)
+                ContentView(persistenceController: persistenceController)
             } detail: {
-                HabitView()
+                DetailView()
             }
             .environment(\.managedObjectContext, persistenceController.container.viewContext)
             .environmentObject(persistenceController)
