@@ -5,6 +5,7 @@
 //  Created by Brendan Caporale on 3/2/25.
 //
 
+import CoreData
 import Foundation
 
 extension NewHabitView {
@@ -12,10 +13,10 @@ extension NewHabitView {
         var persistenceController: PersistenceController
         
         @Published var title = ""
-        @Published var tasksNeeded: Int? = nil
+        @Published var tasksNeeded: Int?
         @Published var unit = "Count"
         
-        let units = ["Count", "mL", "Ounce", "Gallon", "Mile", "Kilometer", "Second", "Minute", "Hour"]
+        let units = Units()
         
         var disabledForm: Bool {
             guard let unwrapped = tasksNeeded else {
@@ -29,12 +30,14 @@ extension NewHabitView {
             let newHabit = Habit(context: viewContext)
             newHabit.id = UUID()
             newHabit.title = title
+            newHabit.tasksCompleted = 0
+            newHabit.streak = 0
             if let tasksNeeded {
                 newHabit.tasksNeeded = Int16(tasksNeeded)
             }
             newHabit.unit = unit
             
-            persistenceController.save()
+            try? viewContext.save()
         }
         
         init(persistenceController: PersistenceController) {

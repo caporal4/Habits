@@ -17,7 +17,7 @@ struct HabitsApp: App {
             NavigationSplitView {
                 ContentView(persistenceController: persistenceController)
             } detail: {
-                DetailView()
+                DetailView(habit: persistenceController.selectedHabit)
             }
             .environment(\.managedObjectContext, persistenceController.container.viewContext)
             .environmentObject(persistenceController)

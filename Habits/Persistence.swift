@@ -13,15 +13,13 @@ class PersistenceController: ObservableObject {
     
     @Published var selectedHabit: Habit?
     
-    private var saveTask: Task<Void, Error>?
-
     init(inMemory: Bool = false) {
         container = NSPersistentContainer(name: "Habits", managedObjectModel: Self.model)
         
         if inMemory {
             container.persistentStoreDescriptions.first!.url = URL(fileURLWithPath: "/dev/null")
         }
-        container.loadPersistentStores(completionHandler: { (storeDescription, error) in
+        container.loadPersistentStores(completionHandler: { (_, error) in
             if let error = error as NSError? {
                 fatalError("Unresolved error \(error), \(error.userInfo)")
             }
@@ -52,18 +50,7 @@ class PersistenceController: ObservableObject {
     }
     
     func save() {
-        saveTask?.cancel()
-        
         try? container.viewContext.save()
-    }
-    
-    func queueSave() {
-        saveTask?.cancel()
-
-        saveTask = Task { @MainActor in
-            try await Task.sleep(for: .seconds(3))
-            save()
-        }
     }
     
     func delete(_ object: NSManagedObject) {

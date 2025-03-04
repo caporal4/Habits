@@ -7,10 +7,12 @@
 
 import CoreData
 import Foundation
+import SwiftUI
 
 extension ContentView {
     class ViewModel: NSObject, ObservableObject, NSFetchedResultsControllerDelegate {
         var persistenceController: PersistenceController
+        var loginTracker = LoginTracker()
         
         private let habitsController: NSFetchedResultsController<Habit>
         
@@ -42,6 +44,25 @@ extension ContentView {
             }
         }
         
+        func reloadData() {
+            let request = Habit.fetchRequest()
+            request.sortDescriptors = [NSSortDescriptor(keyPath: \Habit.title, ascending: true)]
+            
+            let newController: NSFetchedResultsController<Habit>
+            newController = NSFetchedResultsController(
+                fetchRequest: request,
+                managedObjectContext: persistenceController.container.viewContext,
+                sectionNameKeyPath: nil,
+                cacheName: nil
+            )
+            do {
+                try newController.performFetch()
+                habits = newController.fetchedObjects ?? []
+            } catch {
+                print("Failed to fetch habits")
+            }
+        }
+        
         func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
             if let newHabits = controller.fetchedObjects as? [Habit] {
                 habits = newHabits
@@ -57,6 +78,25 @@ extension ContentView {
                 let item = habits[offset]
                 persistenceController.delete(item)
                 persistenceController.save()
+            }
+        }
+        func launchApp() {
+            let loginTime = Date.now
+            
+            loginTracker.loginList.insert(loginTime, at: 0)
+            
+            let dateOne = Calendar.current.dateComponents([.day, .year, .month], from: loginTracker.loginList[0])
+            
+            if loginTracker.loginList.count > 1 {
+                let dateTwo = Calendar.current.dateComponents([.day, .year, .month], from: loginTracker.loginList[1])
+                if dateOne != dateTwo {
+                    for habit in habits {
+                        if habit.tasksCompleted < habit.tasksNeeded {
+                            habit.streak = 0
+                        }
+                        habit.tasksCompleted = 0
+                    }
+                }
             }
         }
     }

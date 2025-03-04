@@ -9,11 +9,12 @@ import SwiftUI
 
 struct DetailView: View {
     @EnvironmentObject var persistenceController: PersistenceController
+    let habit: Habit?
     
     var body: some View {
         VStack {
             if let habit = persistenceController.selectedHabit {
-                HabitView(habit: habit)
+                HabitView(habit: habit, persistenceController: persistenceController)
             } else {
                 NoHabitView()
             }
@@ -24,6 +25,5 @@ struct DetailView: View {
 }
 
 #Preview {
-    DetailView()
-        .environmentObject(PersistenceController(inMemory: true))
+    DetailView(habit: nil)
 }

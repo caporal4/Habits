@@ -8,8 +8,6 @@
 import SwiftUI
 
 struct NoHabitView: View {
-    @EnvironmentObject var persistenceController: PersistenceController
-
     var body: some View {
         Text("No Habit Selected")
             .font(.title)
@@ -19,5 +17,4 @@ struct NoHabitView: View {
 
 #Preview {
     NoHabitView()
-        .environmentObject(PersistenceController(inMemory: true))
 }

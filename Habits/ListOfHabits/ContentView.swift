@@ -9,6 +9,7 @@ import SwiftUI
 import CoreData
 
 struct ContentView: View {
+    @EnvironmentObject var persistenceController: PersistenceController
     @StateObject private var viewModel: ViewModel
     
     init(persistenceController: PersistenceController) {
@@ -18,11 +19,14 @@ struct ContentView: View {
 
     var body: some View {
         NavigationStack {
-            List {
+            List(selection: $persistenceController.selectedHabit) {
                 Section {
                     ForEach(viewModel.habits) { habit in
                         NavigationLink(value: habit) {
                             Text(habit.habitTitle)
+                        }
+                        .onReceive(habit.objectWillChange) { _ in
+                            viewModel.reloadData()
                         }
                     }
                     .onDelete(perform: viewModel.delete)
@@ -31,10 +35,10 @@ struct ContentView: View {
             .navigationTitle("Habits")
             .navigationBarTitleDisplayMode(.inline)
             .navigationDestination(for: Habit.self) { item in
-                HabitView(habit: item)
+                DetailView(habit: item)
             }
             .sheet(isPresented: $viewModel.newHabit) {
-                NewHabitView(persistenceController: viewModel.persistenceController)
+                NewHabitView(persistenceController: persistenceController)
             }
             .toolbar {
                 ToolbarItem {
@@ -59,10 +63,14 @@ struct ContentView: View {
                 }
 #endif
             }
+            .onAppear {
+                viewModel.launchApp()
+            }
         }
     }
 }
 
 #Preview {
-    ContentView(persistenceController: .preview).environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+    ContentView(persistenceController: .preview)
+        .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
 }

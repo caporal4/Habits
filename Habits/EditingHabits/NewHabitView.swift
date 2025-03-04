@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct NewHabitView: View {
-    @StateObject private var viewModel: ViewModel
-    
     @Environment(\.dismiss) var dismiss
+    
+    @StateObject private var viewModel: ViewModel
     
     init(persistenceController: PersistenceController) {
         let viewModel = ViewModel(persistenceController: persistenceController)
@@ -20,19 +20,27 @@ struct NewHabitView: View {
     var body: some View {
         NavigationStack {
             Form {
-                TextField(
-                    "Title",
-                    text: $viewModel.title,
-                    prompt: Text("Enter the habit title here")
-                )
                 HStack {
-                    Text("Amount?")
-                    TextField("Amount", value: $viewModel.tasksNeeded, format: .number)
-                        .multilineTextAlignment(.trailing)
-                        .keyboardType(.decimalPad)
+                    Text("Title")
+                    TextField(
+                        "Title",
+                        text: $viewModel.title,
+                        prompt: Text("Enter the habit title here")
+                    )
+                    .multilineTextAlignment(.trailing)
+                }
+                HStack {
+                    Text("Amount")
+                    TextField(
+                        "Amount",
+                        value: $viewModel.tasksNeeded,
+                        format: .number
+                    )
+                    .multilineTextAlignment(.trailing)
+                    .keyboardType(.decimalPad)
                 }
                 Picker("Unit", selection: $viewModel.unit) {
-                    ForEach(viewModel.units, id: \.self) {
+                    ForEach(viewModel.units.units, id: \.self) {
                         Text($0)
                     }
                 }
@@ -49,5 +57,5 @@ struct NewHabitView: View {
 }
 
 #Preview {
-    NewHabitView(persistenceController: .preview).environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+    NewHabitView(persistenceController: .preview)
 }
