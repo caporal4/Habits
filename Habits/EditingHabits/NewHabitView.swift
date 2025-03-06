@@ -52,6 +52,7 @@ struct NewHabitView: View {
                         }
                     }
                     .tint(.secondary)
+                    .accessibilityIdentifier("Unit")
                 }
                 .navigationTitle("New Habit")
                 .navigationBarTitleDisplayMode(.inline)

@@ -21,7 +21,7 @@ struct HabitCounterView: View {
     
     var body: some View {
         HStack {
-            Button("Undo task", systemImage: "minus", action: viewModel.undoTask)
+            Button("Undo Task", systemImage: "minus", action: viewModel.undoTask)
             .labelStyle(.iconOnly)
             .padding()
             VStack {
@@ -32,7 +32,7 @@ struct HabitCounterView: View {
                 Text(LocalizedStringKey(habit.habitUnit))
                     .font(.title)
             }
-            Button("Complete task", systemImage: "plus", action: viewModel.doTask)
+            Button("Complete Task", systemImage: "plus", action: viewModel.doTask)
                 .labelStyle(.iconOnly)
             .padding()
         }

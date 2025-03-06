@@ -17,12 +17,12 @@
 "Details" = "Dettagli";
 
 /* HabitCounterView */
-"Undo task" = "Annullare l'attività";
-"Complete task" = "Completare il compito";
+"Undo Task" = "Annullare l'attività";
+"Complete Task" = "Completare il compito";
 
 /* HabitView */
-"Edit" = "Modificare";
-"Delete this habit" = "Eliminare questo abitudine";
+"Edit Habit" = "Modificare questo abitudine";
+"Delete Habit" = "Eliminare questo abitudine";
 "Delete habit: %@" = "Eliminare abitudine: %@";
 "Delete" = "Eliminare";
 "Cancel" = "Annulare";

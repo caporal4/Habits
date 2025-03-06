@@ -37,10 +37,10 @@ struct HabitView: View {
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItemGroup {
-                Button("Edit", systemImage: "ellipsis") {
+                Button("Edit Habit", systemImage: "ellipsis") {
                     viewModel.showEditHabitView = true
                 }
-                Button("Delete this habit", systemImage: "trash") {
+                Button("Delete Habit", systemImage: "trash") {
                     viewModel.showingDeleteAlert = true
                 }
             }

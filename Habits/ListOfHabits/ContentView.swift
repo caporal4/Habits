@@ -32,6 +32,7 @@ struct ContentView: View {
                         .onReceive(habit.objectWillChange) { _ in
                             viewModel.reloadData()
                         }
+                        .accessibilityIdentifier(habit.habitTitle)
                     }
                     .onDelete(perform: viewModel.delete)
                 }
@@ -49,7 +50,7 @@ struct ContentView: View {
             .toolbar {
                 ToolbarItem {
                     Button(action: viewModel.showNewHabitView) {
-                        Label("Add Item", systemImage: "plus")
+                        Label("Add Habit", systemImage: "plus")
                     }
                 }
 #if DEBUG
