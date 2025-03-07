@@ -8,10 +8,9 @@
 import SwiftUI
 
 struct HabitView: View {
-    @EnvironmentObject var persistenceController: PersistenceController
-    @ObservedObject var habit: Habit
-    
     @StateObject private var viewModel: ViewModel
+    
+    @ObservedObject var habit: Habit
     
     init(habit: Habit, persistenceController: PersistenceController) {
         self.habit = habit
@@ -26,7 +25,7 @@ struct HabitView: View {
                     .ignoresSafeArea()
                 VStack {
                     Spacer()
-                    HabitCounterView(habit: habit, persistenceController: persistenceController)
+                    HabitCounterView(habit: habit, persistenceController: viewModel.persistenceController)
                     Spacer()
                     Text("\(habit.streak) Day Streak")
                         .font(.largeTitle)
@@ -46,7 +45,7 @@ struct HabitView: View {
             }
         }
         .sheet(isPresented: $viewModel.showEditHabitView) {
-            EditHabitView(habit: habit)
+            EditHabitView(habit: habit, persistenceController: viewModel.persistenceController)
         }
         .alert("Delete habit: \(habit.habitTitle)", isPresented: $viewModel.showingDeleteAlert) {
             Button("Delete", role: .destructive) {

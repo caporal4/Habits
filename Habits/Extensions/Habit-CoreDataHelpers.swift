@@ -22,6 +22,11 @@ extension Habit {
         id ?? UUID()
     }
     
+    var habitReminderTime: Date {
+        get { reminderTime ?? .now }
+        set { reminderTime = newValue }
+    }
+    
     static func example(controller: PersistenceController) -> Habit {
         let controller = controller
         let viewContext = controller.container.viewContext

@@ -40,6 +40,7 @@
 "Unit" = "Unit";
 "Save" = "Save";
 "Edit Habit" = "Edit Habit";
+"Habit Information" = "Habit information";
 
 /* NewHabitView */
 "New Habit" = "New Habit";
@@ -63,3 +64,11 @@
 "Seconds" = "Seconds";
 "Minutes" = "Minutes";
 "Hours" = "Hours";
+
+/* REMINDERS */
+"Reminders" = "Reminders";
+"Enable reminders" = "Enable reminders";
+"Oops!" = "Oops!";
+"There was a problem setting your notification. Please check you have notifications enabled." = "There was a problem setting your notification. Please check you have notifications enabled.";
+"Check Settings" = "Check Settings";
+"Reminder time" = "Reminder time";

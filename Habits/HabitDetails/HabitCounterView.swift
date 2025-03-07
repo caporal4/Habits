@@ -8,10 +8,9 @@
 import SwiftUI
 
 struct HabitCounterView: View {
-    @EnvironmentObject var persistenceController: PersistenceController
-    @ObservedObject var habit: Habit
-    
     @StateObject private var viewModel: ViewModel
+    
+    @ObservedObject var habit: Habit
     
     init(habit: Habit, persistenceController: PersistenceController) {
         self.habit = habit

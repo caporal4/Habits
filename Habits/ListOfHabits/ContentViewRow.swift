@@ -8,8 +8,9 @@
 import SwiftUI
 
 struct ContentViewRow: View {
-    @ObservedObject var habit: Habit
     @StateObject private var viewModel: ViewModel
+    
+    @ObservedObject var habit: Habit
     
     init(habit: Habit) {
         self.habit = habit

@@ -9,7 +9,6 @@ import SwiftUI
 import CoreData
 
 struct ContentView: View {
-    @EnvironmentObject var persistenceController: PersistenceController
     @StateObject private var viewModel: ViewModel
     
     init(persistenceController: PersistenceController) {
@@ -19,7 +18,7 @@ struct ContentView: View {
 
     var body: some View {
         NavigationStack {
-            List(selection: $persistenceController.selectedHabit) {
+            List(selection: $viewModel.persistenceController.selectedHabit) {
                 Section {
                     ForEach(viewModel.habits) { habit in
                         NavigationLink(value: habit) {
@@ -45,7 +44,7 @@ struct ContentView: View {
                 DetailView(habit: item)
             }
             .sheet(isPresented: $viewModel.newHabit) {
-                NewHabitView(persistenceController: persistenceController)
+                NewHabitView(persistenceController: viewModel.persistenceController)
             }
             .toolbar {
                 ToolbarItem {

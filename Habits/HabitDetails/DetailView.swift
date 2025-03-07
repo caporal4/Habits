@@ -9,6 +9,7 @@ import SwiftUI
 
 struct DetailView: View {
     @EnvironmentObject var persistenceController: PersistenceController
+    
     let habit: Habit?
     
     var body: some View {

@@ -40,6 +40,7 @@
 "Unit" = "Unità";
 "Save" = "Salvare";
 "Edit Habit" = "Modificare il abitudine";
+"Habit Information" = "Informatzioni sulle Abitudini";
 
 /* NewHabitView */
 "New Habit" = "Nuova abitudine";
@@ -63,3 +64,11 @@
 "Seconds" = "Secondi";
 "Minutes" = "Minuti";
 "Hours" = "Ore";
+
+/* REMINDERS */
+"Reminders" = "Promemoria";
+"Enable reminders" = "Abilita promemoria";
+"Oops!" = "Oops!";
+"There was a problem setting your notification. Please check you have notifications enabled." = "Si è verificato un problema durante l'impostazione della notifica. Verifica di aver abilitato le notifiche.";
+"Check Settings" = "Controlla le impostazioni";
+"Reminder time" = "Tempo di promemoria";

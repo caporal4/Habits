@@ -9,10 +9,9 @@ import SwiftUI
 
 struct NewHabitView: View {
     @Environment(\.dismiss) var dismiss
+    @Environment(\.openURL) var openURL
     
     @StateObject private var viewModel: ViewModel
-    
-    let units = Units()
     
     init(persistenceController: PersistenceController) {
         let viewModel = ViewModel(persistenceController: persistenceController)
@@ -25,34 +24,49 @@ struct NewHabitView: View {
                 Colors.gradientA
                     .ignoresSafeArea()
                 Form {
-                    HStack {
-                        Text("Title")
-                        TextField(
-                            "Title",
-                            text: $viewModel.title,
-                            prompt: Text("Enter the habit title here")
-                        )
-                        .multilineTextAlignment(.trailing)
-                        .tint(.blue)
+                    Section("Habit Information") {
+                        HStack {
+                            Text("Title")
+                            TextField(
+                                "Title",
+                                text: $viewModel.title,
+                                prompt: Text("Enter the habit title here")
+                            )
+                            .multilineTextAlignment(.trailing)
+                            .tint(.blue)
+                        }
+                        HStack {
+                            Text("Amount")
+                            TextField(
+                                "Amount",
+                                value: $viewModel.tasksNeeded,
+                                format: .number
+                            )
+                            .multilineTextAlignment(.trailing)
+                            .keyboardType(.decimalPad)
+                            .tint(.blue)
+                        }
+                        Picker("Unit", selection: $viewModel.unit) {
+                            ForEach(viewModel.units.list, id: \.self) {
+                                Text($0)
+                            }
+                        }
+                        .tint(.secondary)
+                        .accessibilityIdentifier("Unit")
                     }
-                    HStack {
-                        Text("Amount")
-                        TextField(
-                            "Amount",
-                            value: $viewModel.tasksNeeded,
-                            format: .number
-                        )
-                        .multilineTextAlignment(.trailing)
-                        .keyboardType(.decimalPad)
-                        .tint(.blue)
-                    }
-                    Picker("Unit", selection: $viewModel.unit) {
-                        ForEach(units.list, id: \.self) {
-                            Text($0)
+
+                    Section("Reminders") {
+                        Toggle("Enable reminders", isOn: $viewModel.reminderEnabled.animation())
+                            .tint(.green)
+                        
+                        if viewModel.reminderEnabled {
+                            DatePicker(
+                                "Reminder time",
+                                selection: $viewModel.reminderTime,
+                                displayedComponents: .hourAndMinute
+                            )
                         }
                     }
-                    .tint(.secondary)
-                    .accessibilityIdentifier("Unit")
                 }
                 .navigationTitle("New Habit")
                 .navigationBarTitleDisplayMode(.inline)
@@ -66,6 +80,21 @@ struct NewHabitView: View {
                     }
                     .tint(.blue)
                     .disabled(viewModel.disabledForm)
+                }
+                .alert("Oops!", isPresented: $viewModel.showingNotificationsError) {
+                    Button("Check Settings") {
+                        guard let settingsURL = viewModel.createAppSettingsURL() else { return }
+                        openURL(settingsURL)
+                    }
+                    Button("Cancel", role: .cancel) { }
+                } message: {
+                    Text("There was a problem setting your notification. Please check you have notifications enabled.")
+                }
+                .onChange(of: viewModel.reminderEnabled, initial: false) { _, _  in
+                    viewModel.checkSettings()
+                }
+                .onChange(of: viewModel.reminderTime, initial: false) { _, _  in
+                    viewModel.checkSettings()
                 }
             }
         }

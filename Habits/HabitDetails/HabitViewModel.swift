@@ -19,6 +19,7 @@ extension HabitView {
             persistenceController.delete(habit)
             persistenceController.selectedHabit = nil
         }
+        
         init(persistenceController: PersistenceController, habit: Habit) {
             self.persistenceController = persistenceController
             self.habit = habit

@@ -11,6 +11,7 @@ extension HabitCounterView {
     class ViewModel: ObservableObject {
         var persistenceController: PersistenceController
         var habit: Habit
+        
         let units = Units()
         
         func convertToPlural(_ habit: Habit) -> String {
