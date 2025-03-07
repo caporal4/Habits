@@ -10,6 +10,8 @@ import XCTest
 @testable import Habits
 
 final class ExtensionTests: BaseTestCase {
+    let persistenceContainer = PersistenceController()
+    
     func testHabitTitleUnwrap() {
         let habit = Habit(context: managedObjectContext)
 
@@ -35,5 +37,14 @@ final class ExtensionTests: BaseTestCase {
         habit.id = UUID()
 
         XCTAssertEqual(habit.habitID, habit.id, "Changing habit id should also change habitID.")
+    }
+    
+    func testExampleData() {
+        let habit = Habit.example(controller: persistenceContainer)
+        XCTAssertEqual(habit.habitTitle, "Example Habit", "Example Habit title should be Example Habit.")
+        XCTAssertEqual(habit.habitUnit, "Count", "Example Habit unit should be Count.")
+        XCTAssertEqual(habit.tasksNeeded, 2, "Example Habit tasks needed should be 2.")
+        XCTAssertEqual(habit.tasksCompleted, 0, "Example Habit tasks completed should be 0.")
+        XCTAssertEqual(habit.streak, 0, "Example Habit streak should be 0.")
     }
 }

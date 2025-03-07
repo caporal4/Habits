@@ -22,19 +22,33 @@ struct HabitCounterView: View {
     var body: some View {
         HStack {
             Button("Undo Task", systemImage: "minus", action: viewModel.undoTask)
-            .labelStyle(.iconOnly)
-            .padding()
+                .labelStyle(.iconOnly)
+                .padding()
+                .sensoryFeedback(trigger: habit.tasksCompleted) { oldValue, newValue in
+                    if oldValue > newValue {
+                        .decrease
+                    } else {
+                        nil
+                    }
+                }
             VStack {
                 Text("\(habit.tasksCompleted)")
                     .font(.system(size: Numbers.tasksCompletedFontSize))
                 Text("/\(habit.tasksNeeded)")
                     .font(.title)
-                Text(LocalizedStringKey(habit.habitUnit))
+                Text(LocalizedStringKey(viewModel.convertToPlural(habit)))
                     .font(.title)
             }
             Button("Complete Task", systemImage: "plus", action: viewModel.doTask)
                 .labelStyle(.iconOnly)
-            .padding()
+                .padding()
+                .sensoryFeedback(trigger: habit.tasksCompleted) { oldValue, newValue in
+                    if newValue > oldValue {
+                        .increase
+                    } else {
+                        nil
+                    }
+                }
         }
     }
 }
@@ -42,6 +56,6 @@ struct HabitCounterView: View {
 #Preview {
     let persistenceController = PersistenceController()
     
-    HabitCounterView(habit: .example, persistenceController: .preview)
+    HabitCounterView(habit: Habit.example(controller: persistenceController), persistenceController: .preview)
         .environmentObject(persistenceController)
 }

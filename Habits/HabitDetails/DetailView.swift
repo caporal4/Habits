@@ -27,6 +27,6 @@ struct DetailView: View {
 #Preview {
     let persistenceController = PersistenceController()
     
-    DetailView(habit: .example)
+    DetailView(habit: Habit.example(controller: persistenceController))
         .environmentObject(persistenceController)
 }

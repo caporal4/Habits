@@ -9,6 +9,13 @@ import SwiftUI
 
 struct ContentViewRow: View {
     @ObservedObject var habit: Habit
+    @StateObject private var viewModel: ViewModel
+    
+    init(habit: Habit) {
+        self.habit = habit
+        let viewModel = ViewModel(habit: habit)
+        _viewModel = StateObject(wrappedValue: viewModel)
+    }
     
     var body: some View {
         HStack {
@@ -30,7 +37,7 @@ struct ContentViewRow: View {
                 HStack {
                     Text("\(habit.tasksCompleted)/\(habit.tasksNeeded)")
                         .foregroundStyle(.white)
-                    Text(LocalizedStringKey(habit.habitUnit))
+                    Text(LocalizedStringKey(viewModel.convertToPlural(habit: habit)))
                         .foregroundStyle(.white)
                 }
             }
@@ -39,5 +46,9 @@ struct ContentViewRow: View {
 }
 
 #Preview {
-    ContentViewRow(habit: .example)
+    let persistenceController = PersistenceController()
+    
+    ContentViewRow(habit: Habit.example(controller: persistenceController))
+        .background(.green)
+        .environmentObject(persistenceController)
 }

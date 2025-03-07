@@ -22,8 +22,8 @@ extension Habit {
         id ?? UUID()
     }
     
-    static var example: Habit {
-        let controller = PersistenceController(inMemory: true)
+    static func example(controller: PersistenceController) -> Habit {
+        let controller = controller
         let viewContext = controller.container.viewContext
 
         let habit = Habit(context: viewContext)
@@ -31,7 +31,7 @@ extension Habit {
         habit.id = UUID()
         habit.tasksNeeded = 2
         habit.unit = "Count"
-        habit.streak = 2
+        habit.streak = 0
         habit.tasksCompleted = 0
         return habit
     }

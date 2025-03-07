@@ -33,14 +33,14 @@
 		58C4FFE42D7816B1000C775A /* Exceptions for "Habits" folder in "HabitsTests" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				HabitsTests.xctestplan,
+				Habits.xctestplan,
 			);
 			target = 58C4FE9E2D73BFFA000C775A /* HabitsTests */;
 		};
 		58C4FFE52D7816B1000C775A /* Exceptions for "Habits" folder in "HabitsUITests" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				HabitsTests.xctestplan,
+				Habits.xctestplan,
 			);
 			target = 58C4FEA82D73BFFA000C775A /* HabitsUITests */;
 		};

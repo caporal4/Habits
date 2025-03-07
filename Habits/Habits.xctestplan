@@ -13,6 +13,13 @@
   },
   "testTargets" : [
     {
+      "target" : {
+        "containerPath" : "container:Habits.xcodeproj",
+        "identifier" : "58C4FEA82D73BFFA000C775A",
+        "name" : "HabitsUITests"
+      }
+    },
+    {
       "parallelizable" : true,
       "target" : {
         "containerPath" : "container:Habits.xcodeproj",

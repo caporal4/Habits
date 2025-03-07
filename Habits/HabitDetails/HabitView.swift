@@ -64,6 +64,6 @@ struct HabitView: View {
 #Preview {
     let persistenceController = PersistenceController()
     
-    HabitView(habit: .example, persistenceController: .preview)
+    HabitView(habit: Habit.example(controller: persistenceController), persistenceController: .preview)
         .environmentObject(persistenceController)
 }

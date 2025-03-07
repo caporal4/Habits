@@ -43,7 +43,7 @@ struct EditHabitView: View {
                         .keyboardType(.decimalPad)
                         .tint(.blue)
                     }
-                    Picker("Unit", selection: $habit.unit) {
+                    Picker("Unit", selection: $habit.habitUnit) {
                         ForEach(units.list, id: \.self) {
                             Text($0)
                         }
@@ -71,6 +71,6 @@ struct EditHabitView: View {
 #Preview {
     let persistenceController = PersistenceController()
     
-    EditHabitView(habit: .example)
+    EditHabitView(habit: Habit.example(controller: persistenceController))
         .environmentObject(persistenceController)
 }

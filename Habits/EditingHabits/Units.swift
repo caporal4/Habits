@@ -21,6 +21,17 @@ struct Units {
     var list: [String] {
         return [count, millileter, ounce, gallon, mile, kilometer, second, minute, hour]
     }
-    
-    let backupList = ["Count", "mL", "Ounce", "Gallon", "Mile", "Kilometer", "Second", "Minute", "Hour"]
+
+    let counts = NSLocalizedString("Counts", comment: "Unit")
+    let millileters = NSLocalizedString("mLs", comment: "Unit")
+    let ounces = NSLocalizedString("Ounces", comment: "Unit")
+    let gallons = NSLocalizedString("Gallons", comment: "Unit")
+    let miles = NSLocalizedString("Miles", comment: "Unit")
+    let kilometers = NSLocalizedString("Kilometers", comment: "Unit")
+    let seconds = NSLocalizedString("Seconds", comment: "Unit")
+    let minutes = NSLocalizedString("Hours", comment: "Unit")
+    let hours = NSLocalizedString("Minutes", comment: "Unit")
+    var pluralList: [String] {
+        return [counts, millileters, ounces, gallons, miles, kilometers, seconds, minutes, hours]
+    }
 }

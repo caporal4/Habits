@@ -12,6 +12,8 @@ extension NewHabitView {
     class ViewModel: ObservableObject {
         var persistenceController: PersistenceController
         
+        let units = Units()
+        
         @Published var title = ""
         @Published var tasksNeeded: Int?
         @Published var unit = "Count"
